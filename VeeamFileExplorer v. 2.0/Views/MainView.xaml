@@ -1,8 +1,21 @@
 ﻿<Window x:Class="VeeamFileExplorer_v._2._0.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainView">
+        xmlns:viewModels="clr-namespace:VeeamFileExplorer_v._2._0.ViewModels"
+        Title="{Binding Title}">
+    
+    <Window.DataContext>
+        <viewModels:MainViewModel/>
+    </Window.DataContext>
+    
     <Grid>
-        
+        <TreeView ItemsSource="{Binding LogicalDrives}" VirtualizingStackPanel.IsVirtualizing="True">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="Header" Value="{Binding Parent}"/>
+                    <Setter Property="ItemsSource" Value="{Binding Content}"></Setter>
+                </Style>
+            </TreeView.ItemContainerStyle>
+        </TreeView>
     </Grid>
 </Window>

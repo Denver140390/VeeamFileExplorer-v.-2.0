@@ -1,0 +1,1 @@
+﻿FileInfo and DirectoryInfo classses are used as Models. Thus, no real Model classes created.
