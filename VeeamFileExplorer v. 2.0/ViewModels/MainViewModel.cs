@@ -13,7 +13,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         {
             foreach (string logicalDrive in Directory.GetLogicalDrives())
             {
-                LogicalDrives.Add(new DirectoryViewModel(new DirectoryInfo(logicalDrive)));
+                LogicalDrives.Add(new DirectoryViewModel(logicalDrive));
             }
         }
     }

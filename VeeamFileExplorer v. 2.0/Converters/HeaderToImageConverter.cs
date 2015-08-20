@@ -11,7 +11,8 @@ namespace VeeamFileExplorer_v._2._0.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((value as string).Contains(@"\"))
+            var s = value as string;
+            if (s != null && s.Contains(@"\"))
             {
                 var uri = new Uri("pack://application:,,,/Images/diskdrive.png");
                 var source = new BitmapImage(uri);

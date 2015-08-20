@@ -38,15 +38,13 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             get { return _directoryInfo.FullName; }
         }
 
-        public DirectoryInfo Parent { get; private set; }
-
         public List<DirectoryViewModel> Content
         {
             get
             {
                 try
                 {
-                    return _directoryInfo.GetDirectories().Select(entity => new DirectoryViewModel(entity)).ToList();
+                    return _directoryInfo.GetDirectories().Select(entity => new DirectoryViewModel(entity.FullName)).ToList();
                 }
                 catch (Exception)
                 {
@@ -55,11 +53,9 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             }
         }
 
-        public DirectoryViewModel(DirectoryInfo directoryInfo)
+        public DirectoryViewModel(string parentName)
         {
-            //TODO ??? DirectoryInfo as parameter...
-            _directoryInfo = directoryInfo;
-            Parent = directoryInfo;
+            _directoryInfo = new DirectoryInfo(parentName);
         }
     }
 }
