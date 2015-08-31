@@ -1,5 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
@@ -11,6 +14,11 @@ namespace VeeamFileExplorer_v._2._0.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            {
+                return new BitmapImage(); // fixes design-time error
+            }
+
             var s = value as string;
             if (s != null && s.Contains(@"\"))
             {
