@@ -56,7 +56,7 @@
                         </Setter.Value>
                     </Setter>
                     <Setter Property="Header" Value="{Binding Name}" />
-                    <Setter Property="ItemsSource" Value="{Binding Content}" />
+                    <Setter Property="ItemsSource" Value="{Binding Content, IsAsync=True}" />
                 </Style>
             </TreeView.ItemContainerStyle>
         </TreeView>
