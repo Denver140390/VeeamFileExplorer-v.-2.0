@@ -56,9 +56,12 @@
                         </Setter.Value>
                     </Setter>
                     <Setter Property="Header" Value="{Binding Name}" />
-                    <Setter Property="ItemsSource" Value="{Binding Content, IsAsync=True}" />
+                    <Setter Property="ItemsSource" Value="{Binding SubDirectories, IsAsync=True}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
                 </Style>
             </TreeView.ItemContainerStyle>
         </TreeView>
+        
+        
     </Grid>
 </Window>

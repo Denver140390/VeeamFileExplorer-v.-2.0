@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Windows.Controls;
-using System.Windows.Documents;
 
 namespace VeeamFileExplorer_v._2._0.ViewModels
 {
     class DirectoryViewModel : ViewModelBase, IFileSystemEntityViewModel
     {
         private readonly DirectoryInfo _directoryInfo;
+        private bool _isSelected;
 
         //TODO Setters
         public string Name
@@ -38,7 +36,12 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             get { return _directoryInfo.FullName; }
         }
 
-        public List<DirectoryViewModel> Content
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+        }
+
+        public List<DirectoryViewModel> SubDirectories
         {
             get
             {
