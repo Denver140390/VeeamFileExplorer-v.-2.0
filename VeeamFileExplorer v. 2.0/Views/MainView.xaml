@@ -9,6 +9,16 @@
     </Window.DataContext>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
         <ContentControl Content="{Binding DirectoryTreeViewModel}"/>
+        <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+        <ContentControl Grid.Column="2" Content="{Binding SelectedDirectoryViewModel}"/>
     </Grid>
 </Window>

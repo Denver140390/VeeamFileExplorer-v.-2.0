@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media.Imaging;
 
 namespace VeeamFileExplorer_v._2._0.ViewModels
 {
@@ -9,5 +10,6 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         string Extension { get; }
         long Size { get; }
         string FullPath { get; }
+        BitmapSource Icon { get; }
     }
 }

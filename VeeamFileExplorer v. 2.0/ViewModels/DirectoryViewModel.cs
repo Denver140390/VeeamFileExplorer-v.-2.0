@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Media.Imaging;
 
 namespace VeeamFileExplorer_v._2._0.ViewModels
 {
@@ -10,30 +11,17 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         private readonly DirectoryInfo _directoryInfo;
         private bool _isSelected;
         
-        public string Name
-        {
-            get { return _directoryInfo.Name; }
-        }
+        public string Name => _directoryInfo.Name;
 
-        public DateTime LastModifiedTime
-        {
-            get { return _directoryInfo.LastWriteTime; }
-        }
+        public DateTime LastModifiedTime => _directoryInfo.LastWriteTime;
 
-        public string Extension
-        {
-            get { return String.Empty; }
-        }
+        public string Extension => "Folder";
 
-        public long Size
-        {
-            get { return 0; }
-        }
+        public long Size => 0;
 
-        public string FullPath
-        {
-            get { return _directoryInfo.FullName; }
-        }
+        public string FullPath => _directoryInfo.FullName;
+
+        public BitmapSource Icon => new BitmapImage(new Uri("pack://application:,,,/Images/folder.png"));
 
         public bool IsSelected
         {
@@ -41,18 +29,18 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             set
             {
                 SetProperty(ref _isSelected, value, () => IsSelected);
-                if (value == true)
+                if (_isSelected)
                     OnSelectedDirectoryChanged(EventArgs.Empty);
             }
         }
 
-        public List<DirectoryViewModel> SubDirectories
+        public List<IFileSystemEntityViewModel> SubDirectories
         {
             get
             {
                 try
                 {
-                    return _directoryInfo.GetDirectories().Select(entity => new DirectoryViewModel(entity.FullName)).ToList();
+                    return _directoryInfo.GetDirectories().Select(entity => (IFileSystemEntityViewModel)new DirectoryViewModel(entity.FullName)).ToList();
                 }
                 catch (Exception)
                 {
@@ -60,6 +48,39 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
                 }
             }
         }
+
+        public List<IFileSystemEntityViewModel> Files
+        {
+            get
+            {
+                try
+                {
+                    return _directoryInfo.GetFiles().Select(entity => (IFileSystemEntityViewModel)new FileViewModel(entity.FullName)).ToList();
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
+
+        public List<IFileSystemEntityViewModel> Content
+        {
+            get
+            {
+                try
+                {
+                    var content = new List<IFileSystemEntityViewModel>();
+                    content.AddRange(SubDirectories);
+                    content.AddRange(Files);
+                    return content;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        } 
 
         public DirectoryViewModel(string parentName)
         {

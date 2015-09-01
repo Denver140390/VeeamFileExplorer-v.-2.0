@@ -3,7 +3,7 @@ using System.IO;
 
 namespace VeeamFileExplorer_v._2._0.ViewModels
 {
-    class DirectoryTreeViewModel
+    class DirectoryTreeViewModel : ViewModelBase
     {
         public List<DirectoryViewModel> LogicalDrives { get; } = new List<DirectoryViewModel>();
 

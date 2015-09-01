@@ -8,5 +8,8 @@
          <DataTemplate DataType="{x:Type viewModels:DirectoryTreeViewModel}">
              <views:DirectoryTreeView/>
          </DataTemplate>
+         <DataTemplate DataType="{x:Type viewModels:SelectedDirectoryViewModel}">
+             <views:SelectedDirectoryView/>
+         </DataTemplate>
     </Application.Resources>
 </Application>
