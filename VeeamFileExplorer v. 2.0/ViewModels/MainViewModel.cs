@@ -1,19 +1,22 @@
-﻿using System.Collections.Generic;
-using System.IO;
-
-namespace VeeamFileExplorer_v._2._0.ViewModels
+﻿namespace VeeamFileExplorer_v._2._0.ViewModels
 {
     class MainViewModel : ViewModelBase
     {
         public string Title { get; } = "Veeam File Explorer v. 2.0";
 
-        public List<DirectoryViewModel> LogicalDrives { get; } = new List<DirectoryViewModel>();
+        public DirectoryTreeViewModel DirectoryTreeViewModel { get; } = new DirectoryTreeViewModel();
 
         public MainViewModel()
         {
-            foreach (string logicalDrive in Directory.GetLogicalDrives())
+            DirectoryViewModel.SelectedDirectoryChanged += SelectedDirectoryChanged;
+        }
+
+        private void SelectedDirectoryChanged(object sender, System.EventArgs e)
+        {
+            var directoryViewModel = sender as DirectoryViewModel;
+            if (directoryViewModel != null)
             {
-                LogicalDrives.Add(new DirectoryViewModel(logicalDrive));
+                var path = directoryViewModel.FullPath;
             }
         }
     }

@@ -9,8 +9,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
     {
         private readonly DirectoryInfo _directoryInfo;
         private bool _isSelected;
-
-        //TODO Setters
+        
         public string Name
         {
             get { return _directoryInfo.Name; }
@@ -39,6 +38,12 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         public bool IsSelected
         {
             get { return _isSelected; }
+            set
+            {
+                SetProperty(ref _isSelected, value, () => IsSelected);
+                if (value == true)
+                    OnSelectedDirectoryChanged(EventArgs.Empty);
+            }
         }
 
         public List<DirectoryViewModel> SubDirectories
@@ -59,6 +64,13 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         public DirectoryViewModel(string parentName)
         {
             _directoryInfo = new DirectoryInfo(parentName);
+        }
+
+        public static event EventHandler SelectedDirectoryChanged;
+
+        protected virtual void OnSelectedDirectoryChanged(EventArgs e)
+        {
+            SelectedDirectoryChanged?.Invoke(this, e);
         }
     }
 }

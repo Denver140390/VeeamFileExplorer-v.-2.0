@@ -6,8 +6,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
     class FileViewModel : ViewModelBase, IFileSystemEntityViewModel
     {
         private readonly FileInfo _fileInfo;
-
-        //TODO Setters
+        
         public string Name
         {
             get { return _fileInfo.Name; }
