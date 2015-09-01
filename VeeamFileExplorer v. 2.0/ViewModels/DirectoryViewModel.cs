@@ -10,7 +10,11 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
     {
         private readonly DirectoryInfo _directoryInfo;
         private bool _isSelected;
-        
+
+        private List<IFileSystemEntityViewModel> _subDirectories;
+        private List<IFileSystemEntityViewModel> _files;
+        private List<IFileSystemEntityViewModel> _content;
+
         public string Name => _directoryInfo.Name;
 
         public DateTime LastModifiedTime => _directoryInfo.LastWriteTime;
@@ -40,7 +44,9 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             {
                 try
                 {
-                    return _directoryInfo.GetDirectories().Select(entity => (IFileSystemEntityViewModel)new DirectoryViewModel(entity.FullName)).ToList();
+                    if (_subDirectories == null)
+                        _subDirectories = _directoryInfo.GetDirectories().Select(entity => (IFileSystemEntityViewModel)new DirectoryViewModel(entity.FullName)).ToList();
+                    return _subDirectories;
                 }
                 catch (Exception)
                 {
@@ -55,7 +61,9 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             {
                 try
                 {
-                    return _directoryInfo.GetFiles().Select(entity => (IFileSystemEntityViewModel)new FileViewModel(entity.FullName)).ToList();
+                    if (_files == null)
+                        _files = _directoryInfo.GetFiles().Select(entity => (IFileSystemEntityViewModel)new FileViewModel(entity.FullName)).ToList();
+                    return _files;
                 }
                 catch (Exception)
                 {
@@ -70,10 +78,10 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             {
                 try
                 {
-                    var content = new List<IFileSystemEntityViewModel>();
-                    content.AddRange(SubDirectories);
-                    content.AddRange(Files);
-                    return content;
+                    _content = new List<IFileSystemEntityViewModel>();
+                    _content.AddRange(SubDirectories);
+                    _content.AddRange(Files);
+                    return _content;
                 }
                 catch (Exception)
                 {
