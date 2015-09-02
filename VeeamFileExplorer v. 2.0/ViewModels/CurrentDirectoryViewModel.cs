@@ -2,7 +2,7 @@
 
 namespace VeeamFileExplorer_v._2._0.ViewModels
 {
-    class SelectedDirectoryViewModel : ViewModelBase
+    class CurrentDirectoryViewModel : ViewModelBase
     {
         private DirectoryViewModel _selectedDirectory;
 
@@ -13,18 +13,6 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             {
                 SetProperty(ref _selectedDirectory, value, () => SelectedDirectory);
             }
-        }
-
-        public RelayCommand OpenCommand { get; private set; }
-
-        public SelectedDirectoryViewModel()
-        {
-            OpenCommand = new RelayCommand(Open);
-        }
-
-        public void Open()
-        {
-            
         }
     }
 }

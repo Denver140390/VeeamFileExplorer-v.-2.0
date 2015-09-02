@@ -3,9 +3,9 @@ using VeeamFileExplorer_v._2._0.ViewModels;
 
 namespace VeeamFileExplorer_v._2._0.Views
 {
-    public partial class SelectedDirectoryView : UserControl
+    public partial class CurrentDirectoryView : UserControl
     {
-        public SelectedDirectoryView()
+        public CurrentDirectoryView()
         {
             InitializeComponent();
         }

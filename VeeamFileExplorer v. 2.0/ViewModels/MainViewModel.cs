@@ -7,7 +7,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         public string Title { get; } = "Veeam FileViewModel Explorer v. 2.0";
 
         public DirectoryTreeViewModel DirectoryTreeViewModel { get; } = new DirectoryTreeViewModel();
-        public SelectedDirectoryViewModel SelectedDirectoryViewModel { get; } = new SelectedDirectoryViewModel();
+        public CurrentDirectoryViewModel CurrentDirectoryViewModel { get; } = new CurrentDirectoryViewModel();
 
         public MainViewModel()
         {
@@ -19,7 +19,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             var directoryViewModel = sender as DirectoryViewModel;
             if (directoryViewModel != null)
             {
-                SelectedDirectoryViewModel.SelectedDirectory = directoryViewModel;
+                CurrentDirectoryViewModel.SelectedDirectory = directoryViewModel;
             }
         }
     }
