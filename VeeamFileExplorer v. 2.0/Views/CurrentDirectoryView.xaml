@@ -16,7 +16,7 @@
               HeadersVisibility="Column"
               IsReadOnly="True"
               IsSynchronizedWithCurrentItem="True"
-              ItemsSource="{Binding SelectedDirectory.Content}"
+              ItemsSource="{Binding SelectedDirectory.Content, IsAsync=True}"
               RowHeight="20">
 
 <!--        <DataGrid.InputBindings>-->

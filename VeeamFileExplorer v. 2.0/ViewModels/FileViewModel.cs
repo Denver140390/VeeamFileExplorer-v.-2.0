@@ -47,15 +47,17 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         private BitmapSource Bitmap2BitmapImage(Bitmap bitmap)
         {
             IntPtr hBitmap = bitmap.GetHbitmap();
-            BitmapSource source;
+            BitmapSource source = null;
 
             try
             {
-                source = Imaging.CreateBitmapSourceFromHBitmap(
-                    hBitmap,
-                    IntPtr.Zero,
-                    Int32Rect.Empty,
-                    BitmapSizeOptions.FromEmptyOptions());
+                App.Current.Dispatcher.Invoke(() =>
+                    source = Imaging.CreateBitmapSourceFromHBitmap(
+                        hBitmap,
+                        IntPtr.Zero,
+                        Int32Rect.Empty,
+                        BitmapSizeOptions.FromEmptyOptions())
+                    );
             }
             finally
             {
