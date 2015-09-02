@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
+using VeeamFileExplorer_v._2._0.Helpers;
 
 namespace VeeamFileExplorer_v._2._0.ViewModels
 {
@@ -14,6 +16,8 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         private List<IFileSystemEntityViewModel> _subDirectories;
         private List<IFileSystemEntityViewModel> _files;
         private List<IFileSystemEntityViewModel> _content;
+
+        public RelayCommand RequestOpenInWindowsExplorerCommand { get; private set; }
 
         public string Name => _directoryInfo.Name;
 
@@ -34,7 +38,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             {
                 SetProperty(ref _isSelected, value, () => IsSelected);
                 if (_isSelected)
-                    OnSelectedDirectoryChanged(EventArgs.Empty);
+                    OnSelectedDirectoryChanged();
             }
         }
 
@@ -93,13 +97,19 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         public DirectoryViewModel(string parentName)
         {
             _directoryInfo = new DirectoryInfo(parentName);
+            RequestOpenInWindowsExplorerCommand = new RelayCommand(OpenInWindowsExplorer);
+        }
+
+        private void OpenInWindowsExplorer()
+        {
+            Process.Start(FullPath);
         }
 
         public static event EventHandler SelectedDirectoryChanged;
 
-        protected virtual void OnSelectedDirectoryChanged(EventArgs e)
+        private void OnSelectedDirectoryChanged()
         {
-            SelectedDirectoryChanged?.Invoke(this, e);
+            SelectedDirectoryChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

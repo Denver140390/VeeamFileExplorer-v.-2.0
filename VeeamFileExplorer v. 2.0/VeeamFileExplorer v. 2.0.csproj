@@ -49,6 +49,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="ViewModels\SelectedDirectoryViewModel.cs" />
     <Compile Include="Views\SelectedDirectoryView.xaml.cs">
       <DependentUpon>SelectedDirectoryView.xaml</DependentUpon>
