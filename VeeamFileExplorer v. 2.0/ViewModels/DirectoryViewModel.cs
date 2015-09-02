@@ -105,6 +105,11 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             Process.Start(FullPath);
         }
 
+        public void Open()
+        {
+            OnSelectedDirectoryChanged();
+        }
+
         public static event EventHandler SelectedDirectoryChanged;
 
         private void OnSelectedDirectoryChanged()

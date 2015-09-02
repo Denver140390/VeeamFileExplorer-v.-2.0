@@ -11,5 +11,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         long Size { get; }
         string FullPath { get; }
         BitmapSource Icon { get; }
+
+        void Open();
     }
 }

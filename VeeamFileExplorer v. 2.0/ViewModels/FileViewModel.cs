@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -33,6 +34,11 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
 
             var iconBitmap = extractedIcon.ToBitmap();
             Icon = Bitmap2BitmapImage(iconBitmap);
+        }
+
+        public void Open()
+        {
+            Process.Start(FullPath);
         }
 
         [DllImport("gdi32.dll")]
