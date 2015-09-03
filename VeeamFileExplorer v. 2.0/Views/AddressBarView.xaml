@@ -1,0 +1,9 @@
+﻿<UserControl x:Class="VeeamFileExplorer_v._2._0.Views.AddressBarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <TextBox Text="{Binding Path}">
+        <TextBox.InputBindings>
+            <KeyBinding Key="Enter" Command="{Binding ApplyNewPathCommand, UpdateSourceTrigger=PropertyChanged}"/>
+        </TextBox.InputBindings>
+    </TextBox>
+</UserControl>

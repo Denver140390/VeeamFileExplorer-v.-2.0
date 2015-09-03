@@ -10,6 +10,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -17,11 +18,17 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-        <ContentControl Content="{Binding DirectoryTreeViewModel}" />
-        <GridSplitter Grid.Column="1"
+        
+        <ContentControl Grid.ColumnSpan="3" Content="{Binding AddressBarViewModel}"/>
+        <ContentControl Grid.Row="1" Content="{Binding DirectoryTreeViewModel}" />
+        <GridSplitter Grid.Row="1"
+                      Grid.Column="1"
                       Width="3"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Stretch" />
-        <ContentControl Grid.Column="2" Content="{Binding CurrentDirectoryViewModel}" />
+        <ContentControl Grid.Row="1"
+                        Grid.Column="2"
+                        Content="{Binding DirectoryContentViewModel}" />
+        
     </Grid>
 </Window>

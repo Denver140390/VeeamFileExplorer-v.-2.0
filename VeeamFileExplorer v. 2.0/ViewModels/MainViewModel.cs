@@ -6,21 +6,29 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
     {
         public string Title { get; } = "Veeam FileViewModel Explorer v. 2.0";
 
+        public AddressBarViewModel AddressBarViewModel { get; } = new AddressBarViewModel();
         public DirectoryTreeViewModel DirectoryTreeViewModel { get; } = new DirectoryTreeViewModel();
-        public CurrentDirectoryViewModel CurrentDirectoryViewModel { get; } = new CurrentDirectoryViewModel();
+        public DirectoryContentViewModel DirectoryContentViewModel { get; } = new DirectoryContentViewModel();
 
         public MainViewModel()
         {
-            DirectoryViewModel.SelectedDirectoryChanged += SelectedDirectoryChanged;
+            DirectoryViewModel.SelectedDirectoryChanged += OnSelectedDirectoryChanged;
+            AddressBarViewModel.NewPathApplied += OnNewPathApplied;
         }
 
-        private void SelectedDirectoryChanged(object sender, EventArgs e)
+        private void OnSelectedDirectoryChanged(object sender, EventArgs e)
         {
             var directoryViewModel = sender as DirectoryViewModel;
             if (directoryViewModel != null)
             {
-                CurrentDirectoryViewModel.SelectedDirectory = directoryViewModel;
+                AddressBarViewModel.Path = directoryViewModel.FullPath;
+                DirectoryContentViewModel.Directory = directoryViewModel;
             }
+        }
+
+        private void OnNewPathApplied(object sender, EventArgs eventArgs)
+        {
+            DirectoryContentViewModel.Directory = new DirectoryViewModel(AddressBarViewModel.Path);
         }
     }
 }
