@@ -52,6 +52,7 @@
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="ViewModels\DirectoryContentViewModel.cs" />
     <Compile Include="ViewModels\AddressBarViewModel.cs" />
+    <Compile Include="ViewModels\NavigationEventArgs.cs" />
     <Compile Include="ViewModels\NavigationViewModel.cs" />
     <Compile Include="Views\DirectoryContentView.xaml.cs">
       <DependentUpon>DirectoryContentView.xaml</DependentUpon>

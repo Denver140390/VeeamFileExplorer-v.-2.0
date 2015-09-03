@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using VeeamFileExplorer_v._2._0.Helpers;
 
 namespace VeeamFileExplorer_v._2._0.ViewModels
 {
-    class NavigationViewModel<T> : ViewModelBase
+    class NavigationViewModel : ViewModelBase
     {
+        private int _index;
+
         private bool _canGoBack;
         private bool _canGoForward;
         public RelayCommand GoBackCommand { get; private set; }
@@ -23,7 +24,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             set { SetProperty(ref _canGoForward, value, () => CanGoForward); }
         }
 
-        private List<T> History { get; } = new List<T>();
+        private List<string> History { get; } = new List<string>();
 
         public NavigationViewModel()
         {
@@ -31,28 +32,43 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             GoForwardCommand = new RelayCommand(GoForward);
         }
 
-        public void AddNewHistoryItem(T path)
+        public void Add(string item)
         {
-            History.Add(path);
+            if (History.Count > 0)
+                History.RemoveRange(_index, History.Count - _index - 1);
+            History.Add(item);
+            _index = History.Count - 1;
+            CanGoBack = History.Count > 1;
         }
 
         private void GoBack()
         {
             CanGoForward = true;
-            OnNavigating();
+            _index--;
+            CanGoBack = _index > 0;
+
+            if (_index < 0) return;
+            string path = History[_index];
+            OnNavigating(new NavigationEventArgs(path));
         }
 
         private void GoForward()
         {
             CanGoBack = true;
-            OnNavigating();
+            _index++;
+            CanGoForward = _index < History.Count - 1;
+
+            if (_index > History.Count - 1) return;
+            string path = History[_index];
+            OnNavigating(new NavigationEventArgs(path));
         }
+        
+        public event NavigationEventHandler Navigating;
+        public delegate void NavigationEventHandler(object sender, NavigationEventArgs args);
 
-        public event EventHandler Navigating;
-
-        private void OnNavigating()
+        private void OnNavigating(NavigationEventArgs args)
         {
-            Navigating?.Invoke(this, EventArgs.Empty);
+            Navigating?.Invoke(this, args);
         }
     }
 }
