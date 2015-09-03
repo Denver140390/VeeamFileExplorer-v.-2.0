@@ -52,7 +52,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
                         _subDirectories = _directoryInfo.GetDirectories().Select(entity => (IFileSystemEntityViewModel)new DirectoryViewModel(entity.FullName)).ToList();
                     return _subDirectories;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return null;
                 }

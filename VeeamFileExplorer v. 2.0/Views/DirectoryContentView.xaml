@@ -18,10 +18,6 @@
               IsSynchronizedWithCurrentItem="True"
               ItemsSource="{Binding Directory.Content, IsAsync=True}"
               RowHeight="20">
-
-<!--        <DataGrid.InputBindings>-->
-<!--            <MouseBinding Command="{Binding OpenCommand}" MouseAction="LeftDoubleClick" />-->
-<!--        </DataGrid.InputBindings>-->
         
         <DataGrid.Columns>
             <DataGridTemplateColumn Width="20"

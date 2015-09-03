@@ -19,13 +19,24 @@
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
         
-        <ContentControl Grid.ColumnSpan="3" Content="{Binding AddressBarViewModel}"/>
+        <Grid Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <ContentControl Content="{Binding DirectoryContentViewModel.NavigationViewModel}"/>
+            <ContentControl Grid.Column="1" Content="{Binding AddressBarViewModel}"/>
+        </Grid>
+        
         <ContentControl Grid.Row="1" Content="{Binding DirectoryTreeViewModel}" />
+        
         <GridSplitter Grid.Row="1"
                       Grid.Column="1"
                       Width="3"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Stretch" />
+        
         <ContentControl Grid.Row="1"
                         Grid.Column="2"
                         Content="{Binding DirectoryContentViewModel}" />

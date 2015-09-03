@@ -1,0 +1,9 @@
+﻿<UserControl x:Class="VeeamFileExplorer_v._2._0.Views.NavigationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <StackPanel Orientation="Horizontal">
+        <Button Content="&lt;" Width="30" Command="{Binding GoBackCommand}" IsEnabled="{Binding CanGoBack, Mode=TwoWay}"/>
+        <Button Content="&gt;" Width="30" Command="{Binding GoForwardCommand}" IsEnabled="{Binding CanGoForward, Mode=TwoWay}"/>
+    </StackPanel>
+</UserControl>

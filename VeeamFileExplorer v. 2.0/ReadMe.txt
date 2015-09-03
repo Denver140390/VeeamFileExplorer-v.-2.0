@@ -20,10 +20,10 @@ Implemented View-First approach. ViewModel objects are being created in Views.
 Directories are loading asyncronously on TreeView item selection or expanding.
 
 * Possible improvements
+Change directory on node click, not on node selection.
 Add comments in the code.
 Interactive DirectoryContentView - open folders and files, copy, paste and other usual Windows Explorer features.
 Multiple ContentViews - for comparison.
-Navigation Buttons - backward and forward actions.
 Asynchronous Loading - load as much info as possible asynchronously (load subfolders aswell to improve UX). Without affecting too much RAM tho.
 Add settings and serialize them.
 Cool green-styled UI.
