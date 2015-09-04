@@ -14,6 +14,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         {
             DirectoryViewModel.SelectedDirectoryChanged += OnSelectedDirectoryChanged;
             AddressBarViewModel.NewPathApplied += OnNewPathApplied;
+            DirectoryContentViewModel.Navigating += OnNavigating;
         }
 
         private void OnSelectedDirectoryChanged(object sender, EventArgs e)
@@ -29,6 +30,11 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         private void OnNewPathApplied(object sender, EventArgs eventArgs)
         {
             DirectoryContentViewModel.Directory = new DirectoryViewModel(AddressBarViewModel.Path);
+        }
+
+        private void OnNavigating(object sender, EventArgs eventArgs)
+        {
+            AddressBarViewModel.Path = DirectoryContentViewModel.Directory.FullPath;
         }
     }
 }

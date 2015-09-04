@@ -9,6 +9,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
 
         private bool _canGoBack;
         private bool _canGoForward;
+
         public RelayCommand GoBackCommand { get; private set; }
         public RelayCommand GoForwardCommand { get; private set; }
 
@@ -35,10 +36,11 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         public void Add(string item)
         {
             if (History.Count > 0)
-                History.RemoveRange(_index, History.Count - _index - 1);
+                History.RemoveRange(_index + 1, History.Count - _index - 1);
             History.Add(item);
             _index = History.Count - 1;
             CanGoBack = History.Count > 1;
+            CanGoForward = _index < History.Count - 1;
         }
 
         private void GoBack()

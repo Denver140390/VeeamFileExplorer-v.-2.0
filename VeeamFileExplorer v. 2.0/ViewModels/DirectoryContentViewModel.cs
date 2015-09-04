@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Windows.Navigation;
 
 namespace VeeamFileExplorer_v._2._0.ViewModels
 {
@@ -21,12 +19,16 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
 
         public DirectoryContentViewModel()
         {
-            NavigationViewModel.Navigating += NavigationViewModelOnNavigating;
+            NavigationViewModel.Navigating += OnNavigating;
         }
 
-        private void NavigationViewModelOnNavigating(object sender, NavigationEventArgs args)
+        private void OnNavigating(object sender, NavigationEventArgs args)
         {
-            SetProperty(ref _directory, new DirectoryViewModel(args.Path), () => Directory);
+            var directory = new DirectoryViewModel(args.Path);
+            SetProperty(ref _directory, directory, () => Directory);
+            Navigating?.Invoke(this, EventArgs.Empty);
         }
+
+        public event EventHandler Navigating;
     }
 }
