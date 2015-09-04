@@ -11,7 +11,10 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         public string Path
         {
             get { return _path; }
-            set { SetProperty(ref _path, value, () => Path); }
+            set
+            {
+                SetProperty(ref _path, value, () => Path);
+            }
         }
 
         public RelayCommand ApplyNewPathCommand { get; private set; }

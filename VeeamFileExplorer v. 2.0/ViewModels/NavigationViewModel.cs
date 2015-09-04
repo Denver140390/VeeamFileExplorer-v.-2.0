@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using VeeamFileExplorer_v._2._0.Helpers;
 
 namespace VeeamFileExplorer_v._2._0.ViewModels
@@ -36,7 +37,10 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         public void Add(string item)
         {
             if (History.Count > 0)
+            {
+                if (String.Equals(item, History[_index], StringComparison.Ordinal)) return;
                 History.RemoveRange(_index + 1, History.Count - _index - 1);
+            }
             History.Add(item);
             _index = History.Count - 1;
             CanGoBack = History.Count > 1;
