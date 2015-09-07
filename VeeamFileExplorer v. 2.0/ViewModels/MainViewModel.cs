@@ -23,18 +23,21 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             if (directoryViewModel != null)
             {
                 AddressBarViewModel.Path = directoryViewModel.FullPath;
-                DirectoryContentViewModel.Directory = directoryViewModel;
+                //DirectoryContentViewModel.Directory = directoryViewModel;
+                DirectoryContentViewModel.LoadContentAsync(directoryViewModel.FullPath);
             }
         }
 
         private void OnNewPathApplied(object sender, EventArgs eventArgs)
         {
-            DirectoryContentViewModel.Directory = new DirectoryViewModel(AddressBarViewModel.Path);
+            //DirectoryContentViewModel.Directory = new DirectoryViewModel(AddressBarViewModel.Path);
+            DirectoryContentViewModel.LoadContentAsync(AddressBarViewModel.Path);
         }
 
         private void OnNavigating(object sender, EventArgs eventArgs)
         {
-            AddressBarViewModel.Path = DirectoryContentViewModel.Directory.FullPath;
+            //AddressBarViewModel.Path = DirectoryContentViewModel.Directory.FullPath;
+            AddressBarViewModel.Path = DirectoryContentViewModel.Path;
         }
     }
 }

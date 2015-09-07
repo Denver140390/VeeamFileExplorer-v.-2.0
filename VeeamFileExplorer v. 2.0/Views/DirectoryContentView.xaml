@@ -16,7 +16,7 @@
               HeadersVisibility="Column"
               IsReadOnly="True"
               IsSynchronizedWithCurrentItem="True"
-              ItemsSource="{Binding Directory.Content, IsAsync=True}"
+              ItemsSource="{Binding Content, IsAsync=True}"
               RowHeight="20">
         
         <DataGrid.Columns>

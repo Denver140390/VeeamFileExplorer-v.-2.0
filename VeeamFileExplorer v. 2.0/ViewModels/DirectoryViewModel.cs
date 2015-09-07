@@ -13,9 +13,9 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         private readonly DirectoryInfo _directoryInfo;
         private bool _isSelected;
 
-        private List<IFileSystemEntityViewModel> _subDirectories;
-        private List<IFileSystemEntityViewModel> _files;
-        private List<IFileSystemEntityViewModel> _content;
+//        private List<IFileSystemEntityViewModel> _subDirectories;
+//        private List<IFileSystemEntityViewModel> _files;
+//        private List<IFileSystemEntityViewModel> _content;
 
         public RelayCommand RequestOpenInWindowsExplorerCommand { get; private set; }
 
@@ -48,9 +48,10 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             {
                 try
                 {
-                    if (_subDirectories == null)
-                        _subDirectories = _directoryInfo.GetDirectories().Select(entity => (IFileSystemEntityViewModel)new DirectoryViewModel(entity.FullName)).ToList();
-                    return _subDirectories;
+//                    if (_subDirectories == null)
+//                        _subDirectories = _directoryInfo.GetDirectories().Select(entity => (IFileSystemEntityViewModel)new DirectoryViewModel(entity.FullName)).ToList();
+//                    return _subDirectories;
+                    return _directoryInfo.GetDirectories().Select(entity => (IFileSystemEntityViewModel)new DirectoryViewModel(entity.FullName)).ToList();
                 }
                 catch (Exception)
                 {
@@ -58,41 +59,41 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
                 }
             }
         }
-
-        public List<IFileSystemEntityViewModel> Files
-        {
-            get
-            {
-                try
-                {
-                    if (_files == null)
-                        _files = _directoryInfo.GetFiles().Select(entity => (IFileSystemEntityViewModel)new FileViewModel(entity.FullName)).ToList();
-                    return _files;
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-            }
-        }
-
-        public List<IFileSystemEntityViewModel> Content
-        {
-            get
-            {
-                try
-                {
-                    _content = new List<IFileSystemEntityViewModel>();
-                    _content.AddRange(SubDirectories);
-                    _content.AddRange(Files);
-                    return _content;
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-            }
-        } 
+//
+//        public List<IFileSystemEntityViewModel> Files
+//        {
+//            get
+//            {
+//                try
+//                {
+//                    if (_files == null)
+//                        _files = _directoryInfo.GetFiles().Select(entity => (IFileSystemEntityViewModel)new FileViewModel(entity.FullName)).ToList();
+//                    return _files;
+//                }
+//                catch (Exception)
+//                {
+//                    return null;
+//                }
+//            }
+//        }
+//
+//        public List<IFileSystemEntityViewModel> Content
+//        {
+//            get
+//            {
+//                try
+//                {
+//                    _content = new List<IFileSystemEntityViewModel>();
+//                    _content.AddRange(SubDirectories);
+//                    _content.AddRange(Files);
+//                    return _content;
+//                }
+//                catch (Exception)
+//                {
+//                    return null;
+//                }
+//            }
+//        } 
 
         public DirectoryViewModel(string parentName)
         {
