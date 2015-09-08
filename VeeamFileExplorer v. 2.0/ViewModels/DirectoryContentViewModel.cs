@@ -41,24 +41,27 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             if (_task != null && !_task.IsCompleted)
             {
                 _cancellationTokenSource.Cancel();
-                //_cancellationTokenSource = new CancellationTokenSource();
+                _cancellationTokenSource = new CancellationTokenSource();
             }
-
-            //_task = LoadContent(path);
-            Content.Clear();
+            
             Path = path;
             NavigationViewModel.Add(Path);
-
-            //_cancellationTokenSource = new CancellationTokenSource();
-            _task = Task.Run(() => LoadContent(path), _cancellationTokenSource.Token);
+            
+            _task = Task.Run(() => LoadContent(), _cancellationTokenSource.Token);
             await _task;
         }
 
-        private void LoadContent(string path)
+        private void LoadContent()
         {
+            Content.Clear();
             try
             {
-                var directoryPaths = Directory.GetDirectories(path);
+                if (Path.Equals("D:\\"))
+                {
+                    
+                }
+
+                var directoryPaths = Directory.GetDirectories(Path);
                 foreach (var directoryPath in directoryPaths)
                 {
                     _cancellationTokenSource.Token.ThrowIfCancellationRequested();
@@ -67,7 +70,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
                     _cancellationTokenSource.Token.ThrowIfCancellationRequested();
                 }
 
-                var filePaths = Directory.GetFiles(path);
+                var filePaths = Directory.GetFiles(Path);
                 foreach (var filePath in filePaths)
                 {
                     _cancellationTokenSource.Token.ThrowIfCancellationRequested();
