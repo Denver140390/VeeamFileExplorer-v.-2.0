@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading;
@@ -11,6 +12,8 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
     {
         private Task _task;
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+
+        private const int CONTENT_PACK_LENGTH = 20; // amount of directories to load at once
 
         public string Path { get; private set; }
 
@@ -44,24 +47,44 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             try
             {
                 var directoryPaths = Directory.GetDirectories(path);
+                var directories = new List<IFileSystemEntityViewModel>();
                 foreach (var directoryPath in directoryPaths)
                 {
-                    var directory = new DirectoryViewModel(directoryPath);
+                    directories.Add(new DirectoryViewModel(directoryPath));
+
+                    if (directories.Count != CONTENT_PACK_LENGTH) continue;
                     cancellationToken.ThrowIfCancellationRequested();
-                    Application.Current.Dispatcher.Invoke(() => Content.Add(directory));
+                    Application.Current.Dispatcher.Invoke(() => LoadContentPart(directories));
+                    directories.Clear();
                 }
+                cancellationToken.ThrowIfCancellationRequested();
+                Application.Current.Dispatcher.Invoke(() => LoadContentPart(directories));
 
                 var filePaths = Directory.GetFiles(path);
+                var files = new List<IFileSystemEntityViewModel>();
                 foreach (var filePath in filePaths)
                 {
-                    var file = new FileViewModel(filePath);
+                    files.Add(new FileViewModel(filePath));
+
+                    if (files.Count != CONTENT_PACK_LENGTH) continue;
                     cancellationToken.ThrowIfCancellationRequested();
-                    Application.Current.Dispatcher.Invoke(() => Content.Add(file));
+                    Application.Current.Dispatcher.Invoke(() => LoadContentPart(files));
+                    files.Clear();
                 }
+                cancellationToken.ThrowIfCancellationRequested();
+                Application.Current.Dispatcher.Invoke(() => LoadContentPart(files));
             }
             catch (Exception)
             {
                 return;
+            }
+        }
+
+        private void LoadContentPart(List<IFileSystemEntityViewModel> contentPart)
+        {
+            foreach (var entity in contentPart)
+            {
+                Content.Add(entity);
             }
         }
 

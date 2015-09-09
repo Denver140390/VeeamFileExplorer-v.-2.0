@@ -18,7 +18,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
 
         private static readonly DirectoryViewModel _dummy = new DirectoryViewModel();
 
-        private const int DIRECTORIES_PACK_LENGTH = 10; // amount of directories to load at once
+        private const int DIRECTORIES_PACK_LENGTH = 20; // amount of directories to load at once
 
         public RelayCommand RequestOpenInWindowsExplorerCommand { get; private set; }
 
