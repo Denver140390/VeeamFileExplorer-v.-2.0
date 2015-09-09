@@ -11,7 +11,7 @@ namespace VeeamFileExplorer_v._2._0.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             long size = (long) value;
-            if (size == 0) return String.Empty;
+            if (size == -1) return String.Empty;
 
             string s = String.Concat(size, " B");
 

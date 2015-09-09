@@ -30,6 +30,7 @@
                 <Setter Property="Header" Value="{Binding Name}" />
                 <Setter Property="ItemsSource" Value="{Binding SubDirectories, IsAsync=True}" />
                 <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=OneWayToSource}" />
             </Style>
         </TreeView.ItemContainerStyle>
     </TreeView>

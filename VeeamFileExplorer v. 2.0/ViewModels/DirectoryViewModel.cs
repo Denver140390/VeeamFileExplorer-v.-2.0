@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using VeeamFileExplorer_v._2._0.Helpers;
 
@@ -12,6 +14,9 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
     {
         private readonly DirectoryInfo _directoryInfo;
         private bool _isSelected;
+        private bool _isExpanded;
+
+        private static readonly DirectoryViewModel _dummy = new DirectoryViewModel();
 
         public RelayCommand RequestOpenInWindowsExplorerCommand { get; private set; }
 
@@ -21,7 +26,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
 
         public string Extension => "Folder";
 
-        public long Size => 0;
+        public long Size => -1;
 
         public string FullPath => _directoryInfo.FullName;
 
@@ -38,25 +43,70 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             }
         }
 
-        public List<IFileSystemEntityViewModel> SubDirectories
+        public bool IsExpanded
         {
-            get
+            get { return _isExpanded; }
+            set
             {
-                try
-                {
-                    return _directoryInfo.GetDirectories().Select(entity => (IFileSystemEntityViewModel)new DirectoryViewModel(entity.FullName)).ToList();
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
+                _isExpanded = value;
+                LoadSubDirectoriesAsync();
             }
+        }
+
+        private const int DIRECTORIES_PACK_LENGTH = 10; // amount of directories to load at once
+        private async void LoadSubDirectoriesAsync()
+        {
+            if (!_isExpanded || !CanAccessDirectory()) return;
+
+            SubDirectories.Clear();
+            var directoryInfos = _directoryInfo.GetDirectories();
+            var directories = new List<DirectoryViewModel>();
+            foreach (var directoryInfo in directoryInfos)
+            {
+                await Task.Run(() => directories.Add(new DirectoryViewModel(directoryInfo.FullName)));
+
+                if (directories.Count != DIRECTORIES_PACK_LENGTH) continue;
+                foreach (var directory in directories)
+                {
+                    SubDirectories.Add(directory);
+                }
+                directories.Clear();
+            }
+            foreach (var directory in directories)
+            {
+                SubDirectories.Add(directory);
+            }
+        }
+
+        public ObservableCollection<IFileSystemEntityViewModel> SubDirectories { get; } = new ObservableCollection<IFileSystemEntityViewModel>();
+
+        private DirectoryViewModel()
+        {
+            // Dummy directory
+            _directoryInfo = new DirectoryInfo("C:\\");
         }
 
         public DirectoryViewModel(string parentName)
         {
             _directoryInfo = new DirectoryInfo(parentName);
+            if (CanAccessDirectory())
+            {
+                SubDirectories.Add(_dummy);
+            }
             RequestOpenInWindowsExplorerCommand = new RelayCommand(OpenInWindowsExplorer);
+        }
+
+        private bool CanAccessDirectory()
+        {
+            try
+            {
+                var directoryInfos = _directoryInfo.GetDirectories();
+                return directoryInfos.Length != 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private void OpenInWindowsExplorer()
