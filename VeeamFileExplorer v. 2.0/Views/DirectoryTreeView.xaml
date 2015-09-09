@@ -28,9 +28,9 @@
                 <Setter Property="HeaderTemplate" Value="{StaticResource HeaderTemplate}" />
                 <Setter Property="ContextMenu" Value="{StaticResource DirectoryContextMenu}"/>
                 <Setter Property="Header" Value="{Binding Name}" />
-                <Setter Property="ItemsSource" Value="{Binding SubDirectories, IsAsync=True}" />
+                <Setter Property="ItemsSource" Value="{Binding SubDirectories}" />
                 <Setter Property="IsSelected" Value="{Binding IsSelected}" />
-                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=OneWayToSource}" />
+                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
             </Style>
         </TreeView.ItemContainerStyle>
     </TreeView>

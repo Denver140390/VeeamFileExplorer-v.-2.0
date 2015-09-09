@@ -18,6 +18,8 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
 
         private static readonly DirectoryViewModel _dummy = new DirectoryViewModel();
 
+        private const int DIRECTORIES_PACK_LENGTH = 10; // amount of directories to load at once
+
         public RelayCommand RequestOpenInWindowsExplorerCommand { get; private set; }
 
         public string Name => _directoryInfo.Name;
@@ -53,7 +55,6 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             }
         }
 
-        private const int DIRECTORIES_PACK_LENGTH = 10; // amount of directories to load at once
         private async void LoadSubDirectoriesAsync()
         {
             if (!_isExpanded || !CanAccessDirectory()) return;
