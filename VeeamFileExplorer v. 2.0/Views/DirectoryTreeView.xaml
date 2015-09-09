@@ -31,6 +31,7 @@
                 <Setter Property="ItemsSource" Value="{Binding SubDirectories}" />
                 <Setter Property="IsSelected" Value="{Binding IsSelected}" />
                 <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick"/>
             </Style>
         </TreeView.ItemContainerStyle>
     </TreeView>
