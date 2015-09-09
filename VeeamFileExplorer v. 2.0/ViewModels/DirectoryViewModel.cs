@@ -84,7 +84,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         private DirectoryViewModel()
         {
             // Dummy directory
-            _directoryInfo = new DirectoryInfo("C:\\");
+            _directoryInfo = new DirectoryInfo("C:\\"); //TODO Need something more logical as a dummy
         }
 
         public DirectoryViewModel(string parentName)

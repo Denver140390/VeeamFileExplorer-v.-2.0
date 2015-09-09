@@ -11,6 +11,8 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         private bool _canGoBack;
         private bool _canGoForward;
 
+        private const int MAXIMUM_ITEMS_COUNT = 10;
+
         public RelayCommand GoBackCommand { get; private set; }
         public RelayCommand GoForwardCommand { get; private set; }
 
@@ -40,6 +42,10 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             {
                 if (String.Equals(item, History[_index], StringComparison.Ordinal)) return;
                 History.RemoveRange(_index + 1, History.Count - _index - 1);
+            }
+            if (History.Count >= MAXIMUM_ITEMS_COUNT)
+            {
+                History.RemoveAt(0);
             }
             History.Add(item);
             _index = History.Count - 1;

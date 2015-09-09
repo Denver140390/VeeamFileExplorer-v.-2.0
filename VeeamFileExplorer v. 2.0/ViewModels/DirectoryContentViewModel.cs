@@ -38,11 +38,11 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             NavigationViewModel.Add(Path);
             Content.Clear();
 
-            _task = Task.Run(() => LoadContent(path, _cancellationTokenSource.Token), _cancellationTokenSource.Token);
+            _task = Task.Run(() => LoadContent(path, _cancellationTokenSource), _cancellationTokenSource.Token);
             await _task;
         }
 
-        private void LoadContent(string path, CancellationToken cancellationToken)
+        private void LoadContent(string path, CancellationTokenSource cancellationTokenSource)
         {
             try
             {
@@ -53,11 +53,11 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
                     directories.Add(new DirectoryViewModel(directoryPath));
 
                     if (directories.Count != CONTENT_PACK_LENGTH) continue;
-                    cancellationToken.ThrowIfCancellationRequested();
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
                     Application.Current.Dispatcher.Invoke(() => LoadContentPart(directories));
                     directories.Clear();
                 }
-                cancellationToken.ThrowIfCancellationRequested();
+                cancellationTokenSource.Token.ThrowIfCancellationRequested();
                 Application.Current.Dispatcher.Invoke(() => LoadContentPart(directories));
 
                 var filePaths = Directory.GetFiles(path);
@@ -67,11 +67,11 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
                     files.Add(new FileViewModel(filePath));
 
                     if (files.Count != CONTENT_PACK_LENGTH) continue;
-                    cancellationToken.ThrowIfCancellationRequested();
+                    cancellationTokenSource.Token.ThrowIfCancellationRequested();
                     Application.Current.Dispatcher.Invoke(() => LoadContentPart(files));
                     files.Clear();
                 }
-                cancellationToken.ThrowIfCancellationRequested();
+                cancellationTokenSource.Token.ThrowIfCancellationRequested();
                 Application.Current.Dispatcher.Invoke(() => LoadContentPart(files));
             }
             catch (Exception)
@@ -80,11 +80,14 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             }
         }
 
-        private void LoadContentPart(List<IFileSystemEntityViewModel> contentPart)
+        private void LoadContentPart(List<IFileSystemEntityViewModel> contentParts)
         {
-            foreach (var entity in contentPart)
+            foreach (var entity in contentParts)
             {
-                Content.Add(entity);
+                if (entity.FullPath.Contains(Path))
+                {
+                    Content.Add(entity);
+                }
             }
         }
 
