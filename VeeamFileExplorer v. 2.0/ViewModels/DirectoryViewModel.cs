@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using VeeamFileExplorer_v._2._0.Helpers;
+using VeeamFileExplorer_v._2._0.Services;
 
 namespace VeeamFileExplorer_v._2._0.ViewModels
 {
-    class DirectoryViewModel : ViewModelBase, IFileSystemEntityViewModel
+    internal class DirectoryViewModel : ViewModelBase, IFileSystemEntityViewModel
     {
         private readonly DirectoryInfo _directoryInfo;
         private bool _isSelected;
         private bool _isExpanded;
 
         private static readonly DirectoryViewModel _dummy = new DirectoryViewModel();
+
+        private MessageBoxService _messageBoxService = new MessageBoxService();
+        private Exception _exception;
 
         private const int DIRECTORIES_PACK_LENGTH = 20; // amount of directories to load at once
 
@@ -41,7 +44,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             {
                 SetProperty(ref _isSelected, value, () => IsSelected);
                 if (_isSelected)
-                    OnSelectedDirectoryChanged();
+                    Open();
             }
         }
 
@@ -79,7 +82,8 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
             }
         }
 
-        public ObservableCollection<IFileSystemEntityViewModel> SubDirectories { get; } = new ObservableCollection<IFileSystemEntityViewModel>();
+        public ObservableCollection<IFileSystemEntityViewModel> SubDirectories { get; } =
+            new ObservableCollection<IFileSystemEntityViewModel>();
 
         private DirectoryViewModel()
         {
@@ -90,7 +94,7 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         public DirectoryViewModel(string parentName)
         {
             _directoryInfo = new DirectoryInfo(parentName);
-            if (CanAccessDirectory())
+            if (CanAccessDirectory() && !IsEmpty)
             {
                 SubDirectories.Add(_dummy);
             }
@@ -101,14 +105,17 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
         {
             try
             {
-                var directoryInfos = _directoryInfo.GetDirectories();
-                return directoryInfos.Length != 0;
+                _directoryInfo.GetDirectories();
+                return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _exception = e;
                 return false;
             }
         }
+
+        private bool IsEmpty => _directoryInfo.GetDirectories().Length == 0;
 
         private void OpenInWindowsExplorer()
         {
@@ -117,6 +124,11 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
 
         public void Open()
         {
+            if (!CanAccessDirectory())
+            {
+                _messageBoxService.ShowMessage(_exception.Message, "Can't open directory");
+            }
+
             OnSelectedDirectoryChanged();
         }
 
