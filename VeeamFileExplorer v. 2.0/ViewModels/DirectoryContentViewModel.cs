@@ -10,18 +10,6 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
 {
     class DirectoryContentViewModel : ViewModelBase
     {
-//        private DirectoryViewModel _directory;
-
-//        public DirectoryViewModel Directory
-//        {
-//            get { return _directory; }
-//            set
-//            {
-//                SetProperty(ref _directory, value, () => Directory);
-//                NavigationViewModel.Add(_directory.FullPath);
-//            }
-//        }
-
         private Task _task;
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
@@ -43,52 +31,43 @@ namespace VeeamFileExplorer_v._2._0.ViewModels
                 _cancellationTokenSource.Cancel();
                 _cancellationTokenSource = new CancellationTokenSource();
             }
-            
+
             Path = path;
             NavigationViewModel.Add(Path);
-            
-            _task = Task.Run(() => LoadContent(), _cancellationTokenSource.Token);
+            Content.Clear();
+
+            _task = Task.Run(() => LoadContent(path, _cancellationTokenSource.Token), _cancellationTokenSource.Token);
             await _task;
         }
 
-        private void LoadContent()
+        private void LoadContent(string path, CancellationToken cancellationToken)
         {
-            Content.Clear();
             try
             {
-                if (Path.Equals("D:\\"))
-                {
-                    
-                }
-
-                var directoryPaths = Directory.GetDirectories(Path);
+                var directoryPaths = Directory.GetDirectories(path);
                 foreach (var directoryPath in directoryPaths)
                 {
-                    _cancellationTokenSource.Token.ThrowIfCancellationRequested();
                     var directory = new DirectoryViewModel(directoryPath);
+                    cancellationToken.ThrowIfCancellationRequested();
                     Application.Current.Dispatcher.Invoke(() => Content.Add(directory));
-                    _cancellationTokenSource.Token.ThrowIfCancellationRequested();
                 }
 
-                var filePaths = Directory.GetFiles(Path);
+                var filePaths = Directory.GetFiles(path);
                 foreach (var filePath in filePaths)
                 {
-                    _cancellationTokenSource.Token.ThrowIfCancellationRequested();
                     var file = new FileViewModel(filePath);
+                    cancellationToken.ThrowIfCancellationRequested();
                     Application.Current.Dispatcher.Invoke(() => Content.Add(file));
-                    _cancellationTokenSource.Token.ThrowIfCancellationRequested();
                 }
             }
             catch (Exception)
             {
-                // ignored
+                return;
             }
         }
 
         private void OnNavigating(object sender, NavigationEventArgs args)
         {
-            //var directory = new DirectoryViewModel(args.Path);
-            //SetProperty(ref _directory, directory, () => Directory);
             LoadContentAsync(args.Path);
             Navigating?.Invoke(this, EventArgs.Empty);
         }
