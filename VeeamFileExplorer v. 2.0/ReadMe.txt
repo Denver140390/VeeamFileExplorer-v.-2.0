@@ -24,7 +24,6 @@ Change directory on node click, not on node selection.
 Add comments in the code.
 Interactive DirectoryContentView - open folders and files, copy, paste and other usual Windows Explorer features.
 Multiple ContentViews - for comparison.
-Asynchronous Loading - load as much info as possible asynchronously (load subfolders aswell to improve UX). Without affecting too much RAM tho.
 Add settings and serialize them.
 Cool green-styled UI.
 A LOT MORE...
